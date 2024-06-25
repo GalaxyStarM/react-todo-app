@@ -1,6 +1,7 @@
-import React from "react";
+import React, {useContext} from "react";
+import { TodoContext } from "./App";
 
-export default function TodoItem({ todo, toggleCompleted, deleteTodo }) {
+export default function TodoItem({todo}) {
   const getTodoTitleStyle = () => {
     if (todo.completed === true) {
       return {
@@ -12,6 +13,8 @@ export default function TodoItem({ todo, toggleCompleted, deleteTodo }) {
       };
     }
   };
+
+  const{toggleCompleted, deleteTodo} = useContext(TodoContext)
 
   return (
     <div style={styles.todoItem}>

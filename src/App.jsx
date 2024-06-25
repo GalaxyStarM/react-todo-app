@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, createContext } from "react";
 import "./App.css";
 import Todos from "./Todos";
 import TodoForm from "./TodoForm";
@@ -20,6 +20,8 @@ const todosData = [
     completed: false,
   },
 ];
+
+export const TodoContext = createContext();
 
 function App() {
   const [todos, setTodos] = useState(todosData);
@@ -43,7 +45,7 @@ function App() {
   };
 
   const addTodo = (todoTitle) => {
-    if(todoTitle === '') {
+    if (todoTitle === "") {
       return console.log("Silahkan masukkan Todo yang ingin dikerjakan!");
     }
 
@@ -51,23 +53,22 @@ function App() {
       id: todos.length + 1,
       title: todoTitle,
       completed: false,
-    }
+    };
 
-    const updatedTodos =
-    todos.concat(newTodo)
-    setTodos(updatedTodos)
+    const updatedTodos = todos.concat(newTodo);
+    setTodos(updatedTodos);
   };
 
   return (
-    <div className="container">
-      <h1>My Todo List</h1>
-      <TodoForm addTodo={addTodo} />
-      <Todos
-        todos={todos}
-        toggleCompleted={toggleCompleted}
-        deleteTodo={deleteTodo}
-      />
-    </div>
+    <TodoContext.Provider value={{ toggleCompleted, deleteTodo }}>
+      <div className="container">
+        <h1>My Todo List</h1>
+        <TodoForm addTodo={addTodo} />
+        <Todos
+          todos={todos}
+        />
+      </div>
+    </TodoContext.Provider>
   );
 }
 
